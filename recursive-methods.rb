@@ -125,6 +125,27 @@ def digit_match(n, m, matches = 0)
   end
 end
 
+# time: O(n) because it uses memoization to save the calculations so that it has to call the function n times to calculate the needed sum
+# space: O(n) because there will be n calls on the stack, and the helper array is only length 2 and its size doesn't change depending on input
+
+# with memoization, bottom up
+def fib(n, fib_nums = [0, 1], idx = 2)
+  # initialize fib with first two vals in fib seq
+
+  if n == 0 || n == 1
+    return fib_nums[n]
+  elsif idx == n
+    return fib_nums[0] + fib_nums[1]
+  else
+    # recalc fib_nums in helper array
+    cur_num = fib_nums[0] + fib_nums[1]
+    fib_nums[0] = fib_nums[1]
+    fib_nums[1] = cur_num
+
+    return fib(n, fib_nums, idx + 1)
+  end
+end
+
 # Factorial Tests
 raise "factorial broke - factorial(4)" unless factorial(4) == 24
 raise "factorial broke - factorial(0)" unless factorial(0) == 1
@@ -173,4 +194,12 @@ raise "digit_match broke - digit_match(1072503891, 62530841)" unless digit_match
 raise "digit_match broke - digit_match(1234, 4321)" unless digit_match(1234, 4321) == 0
 raise "digit_match broke - digit_match(3862947593, 3862947593)" unless digit_match(3862947593, 3862947593) == 10
 puts "passes all digit_match tests"
+
+# Fibonacci Tests
+raise "fib broke - fib(4)" unless fib(4) == 3
+raise "fib broke - fib(6)" unless fib(6) == 8
+raise "fib broke - fib(9)" unless fib(9) == 34
+# test recursion efficiency
+puts fib(50)
+
 puts "All test passed"
